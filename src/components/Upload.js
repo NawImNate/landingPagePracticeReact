@@ -1,10 +1,30 @@
+// imports
 import React from "react";
 import "../index.css";
 import Button from "@mui/material/Button";
 import "./Upload.css";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+// for the modal: box, typog, modal, and FormControl for the form in the modal
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import { FormControl } from "@mui/material";
 
+// style for the modal
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+// for the quilt collage
 function srcset(image, size, rows = 1, cols = 1) {
   return {
     src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
@@ -14,6 +34,7 @@ function srcset(image, size, rows = 1, cols = 1) {
   };
 }
 
+// Dummy Data
 const itemData = [
   {
     img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -75,7 +96,14 @@ const itemData = [
   },
 ];
 
+// Upload Functional Component
 const Upload = () => {
+  // states
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  // return jsx
   return (
     <div className="uploadContainer">
       <div className="left-wrapper">
@@ -83,11 +111,40 @@ const Upload = () => {
         <h3>“You must go on adventures to find out where you truly belong” </h3>
         <p>– Sue Fitzmaurice</p>
         <div className="btn-wrapper">
-          <Button className="btn" variant="" component="label">
+          <Button
+            className="btn"
+            variant=""
+            component="label"
+            onClick={handleOpen}
+          >
             Upload
-            <input hidden accept="image/*" multiple type="file" />
           </Button>
+          {/* modal */}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              {/* title and desc */}
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Title
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Description
+              </Typography>
+              <br></br>
+              <hr />
+              {/* image and upload post buttons */}
+              <Button className="btn-upload-pic" variant="" component="label">
+                Select Pic
+                <input hidden accept="image/*" multiple type="file" />
+              </Button>
+            </Box>
+          </Modal>
           <hr className="hrBreak"></hr>
+          {/* Jump to: Gallery Button on left side of hero section */}
           <Button className="btn" variant="" component="label">
             Gallery
           </Button>
